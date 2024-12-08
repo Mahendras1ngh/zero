@@ -37,9 +37,25 @@ import tvs from '@/assets/clients/tvs.png';
 import waycool from '@/assets/clients/waycool.jpg';
 import whitehill from '@/assets/clients/whitehill.jpeg';
 import winzo from '@/assets/clients/winzo.jpeg';
+import { Quote } from 'lucide-react';
+
+const testimonials = [
+  {
+    text: "The product photos you did for our online store were amazing. The details and lighting made all the difference. We've already seen a boost in sales!",
+    author: 'Soniya Khatri',
+    role: 'Owner of Pure Farms',
+  },
+  {
+    text: 'We hired ZEROGRAPHY PRODUCTION for a corporate event, and the photos exceeded our expectations. They really captured the energy and spirit of the day.',
+    author: 'Ripul Agarwal',
+    role: 'CEO, AVR EVENTS',
+  },
+];
 
 export default function ClientsSection() {
   const [isVisible, setIsVisible] = useState(false);
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+
   const clients = [
     { name: 'Adani Foundation', image: adanifoundation },
     { name: 'Arrivae', image: arrivae },
@@ -156,20 +172,55 @@ export default function ClientsSection() {
       <div className='container mx-auto max-w-7xl'>
         {renderClientGrid(firstHalf)}
 
-        {/* Video Section */}
         <div className='max-w-4xl mx-auto my-20'>
-          <div className='relative group'>
-            <div className='absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-gradient-xy'></div>
-            <div className='relative rounded-lg overflow-hidden shadow-[0_0_15px_rgba(139,92,246,0.3)]'>
-              <div style={{ paddingBottom: '56.25%' }} className='relative'>
-                <iframe
-                  className='absolute top-0 left-0 w-full h-full rounded-lg'
-                  src='https://www.youtube.com/embed/5oH9Nr3bKfw'
-                  title='Showreel'
-                  allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-                  allowFullScreen
-                />
+          <div className='relative bg-gray-900/30 rounded-2xl p-12 backdrop-blur-sm border border-purple-500/20'>
+            {/* Decorative quote icon */}
+            <div className='absolute -top-6 -left-6'>
+              <div className='bg-purple-500/20 p-4 rounded-full'>
+                <Quote className='w-8 h-8 text-purple-400' />
               </div>
+            </div>
+
+            {/* Testimonials */}
+            <div className='relative h-48'>
+              {testimonials.map((testimonial, index) => (
+                <div
+                  key={index}
+                  className={`absolute w-full transition-all duration-500 ${
+                    index === activeTestimonial
+                      ? 'opacity-100 translate-y-0'
+                      : 'opacity-0 translate-y-8'
+                  }`}
+                >
+                  <p className='text-xl text-gray-300 italic mb-6'>
+                    {testimonial.text}
+                  </p>
+                  <div className='flex flex-col'>
+                    <span className='text-purple-400 font-semibold'>
+                      {testimonial.author}
+                    </span>
+                    <span className='text-gray-500 text-sm'>
+                      {testimonial.role}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Testimonial Navigation Dots */}
+            <div className='flex justify-center gap-2 mt-8'>
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveTestimonial(index)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    index === activeTestimonial
+                      ? 'bg-purple-400 w-6'
+                      : 'bg-gray-600 hover:bg-gray-500'
+                  }`}
+                  aria-label={`Go to testimonial ${index + 1}`}
+                />
+              ))}
             </div>
           </div>
         </div>
