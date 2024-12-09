@@ -21,7 +21,7 @@ const icons = [
   { name: 'writing', path: writing },
 ];
 
-const FloatingIcon = ({ icon, initialPosition }) => {
+const FloatingIcon = ({ icon, initialPosition, isMobile }) => {
   const [position, setPosition] = useState(initialPosition);
   const [velocity, setVelocity] = useState({
     x: (Math.random() - 0.5) * 2,
@@ -37,10 +37,7 @@ const FloatingIcon = ({ icon, initialPosition }) => {
       });
     };
 
-    // Initial dimensions
     updateDimensions();
-
-    // Update dimensions on resize
     window.addEventListener('resize', updateDimensions);
     return () => window.removeEventListener('resize', updateDimensions);
   }, []);
@@ -50,8 +47,8 @@ const FloatingIcon = ({ icon, initialPosition }) => {
 
     let animationFrameId;
     let lastTime = performance.now();
-    const speed = 0.05;
-    const padding = 48; // Icon size + padding
+    const speed = isMobile ? 0.03 : 0.05; // Slower on mobile
+    const padding = isMobile ? 32 : 48; // Smaller padding on mobile
 
     const animate = (currentTime) => {
       const deltaTime = (currentTime - lastTime) / 16;
@@ -61,11 +58,9 @@ const FloatingIcon = ({ icon, initialPosition }) => {
         let newX = prevPos.x + velocity.x * speed * deltaTime;
         let newY = prevPos.y + velocity.y * speed * deltaTime;
 
-        // Convert percentage to pixels
         const pixelX = (newX * dimensions.width) / 100;
         const pixelY = (newY * dimensions.height) / 100;
 
-        // Check boundaries and bounce with adjusted positions
         if (pixelX <= padding || pixelX >= dimensions.width - padding) {
           setVelocity((prev) => ({ ...prev, x: -prev.x }));
           newX =
@@ -90,11 +85,17 @@ const FloatingIcon = ({ icon, initialPosition }) => {
 
     animationFrameId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [velocity, dimensions]);
+  }, [velocity, dimensions, isMobile]);
+
+  const iconSize = isMobile ? 32 : 48;
 
   return (
     <div
-      className='absolute w-12 h-12 opacity-20 hover:opacity-60 transition-opacity duration-300'
+      className={`absolute transition-opacity duration-300 ${
+        isMobile
+          ? 'w-8 h-8 opacity-15 hover:opacity-50'
+          : 'w-12 h-12 opacity-20 hover:opacity-60'
+      }`}
       style={{
         left: `${position.x}%`,
         top: `${position.y}%`,
@@ -105,8 +106,8 @@ const FloatingIcon = ({ icon, initialPosition }) => {
       <Image
         src={icon.path}
         alt={icon.name}
-        width={48}
-        height={48}
+        width={iconSize}
+        height={iconSize}
         className='w-full h-full object-contain'
       />
     </div>
@@ -115,15 +116,29 @@ const FloatingIcon = ({ icon, initialPosition }) => {
 
 export default function Hero() {
   const [floatingIcons, setFloatingIcons] = useState([]);
+  const [isMobile, setIsMobile] = useState(false);
   const initialized = useRef(false);
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
     if (!initialized.current) {
-      const padding = 48;
+      const padding = isMobile ? 32 : 48;
       const maxX = ((window.innerWidth - padding) * 100) / window.innerWidth;
       const maxY = ((window.innerHeight - padding) * 100) / window.innerHeight;
 
-      const initialIcons = icons.map((icon) => ({
+      // Show fewer icons on mobile
+      const visibleIcons = isMobile ? icons.slice(0, 5) : icons;
+
+      const initialIcons = visibleIcons.map((icon) => ({
         icon,
         position: {
           x: 10 + Math.random() * (maxX - 20),
@@ -134,22 +149,22 @@ export default function Hero() {
       setFloatingIcons(initialIcons);
       initialized.current = true;
     }
-  }, []);
+  }, [isMobile]);
 
   return (
     <section className='hero h-screen flex items-center justify-center bg-black relative overflow-hidden'>
-      {/* Gradient Overlays for depth */}
-      <div className='absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-50'></div>
-      <div className='absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-50'></div>
+      {/* Gradient Overlays */}
+      <div className='absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-50' />
+      <div className='absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-50' />
 
       {/* Main Content */}
-      <div className='text-center z-10'>
-        <h1 className='text-[5rem] font-bold mb-4 text-gray-400 uppercase relative'>
+      <div className='text-center z-10 px-4'>
+        <h1 className='text-[clamp(2.5rem,10vw,5rem)] font-bold mb-4 text-gray-400 uppercase relative'>
           <span className='block animate-fade-in-down transform hover:scale-105 transition-transform duration-300'>
             Zerography
           </span>
         </h1>
-        <p className='text-xl mb-8 text-gray-500 animate-fade-in-up'>
+        <p className='text-base md:text-xl mb-8 text-gray-500 animate-fade-in-up max-w-md mx-auto'>
           Where every frame tells a story
         </p>
       </div>
@@ -160,11 +175,12 @@ export default function Hero() {
           key={index}
           icon={item.icon}
           initialPosition={item.position}
+          isMobile={isMobile}
         />
       ))}
 
-      {/* Additional ambient effects */}
-      <div className='absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[length:40px_40px]'></div>
+      {/* Background Pattern - adjusted size for mobile */}
+      <div className='absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[length:20px_20px] md:bg-[length:40px_40px]' />
     </section>
   );
 }

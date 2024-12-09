@@ -1,6 +1,12 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
-import { Volume2, VolumeX, ChevronLeft, ChevronRight } from 'lucide-react';
+import {
+  Volume2,
+  VolumeX,
+  ChevronLeft,
+  ChevronRight,
+  Loader2,
+} from 'lucide-react';
 
 const videos = [
   'https://res.cloudinary.com/dd87wq4wp/video/upload/v1731844006/12657735_1920_1080_30fps.mp4',
@@ -9,14 +15,29 @@ const videos = [
 export default function VideoShowcase() {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const videoRefs = useRef(videos.map(() => React.createRef()));
+  const containerRef = useRef(null);
+
+  // Check for mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const playVideo = (index) => {
     videoRefs.current.forEach((ref, i) => {
       if (ref.current) {
         if (i === index) {
           ref.current.currentTime = 0;
-          ref.current.play();
+          ref.current.play().catch((error) => {
+            console.error('Video playback failed:', error);
+          });
           ref.current.classList.remove('opacity-0');
           ref.current.classList.add('opacity-100');
         } else {
@@ -35,9 +56,14 @@ export default function VideoShowcase() {
       playVideo(nextIndex);
     };
 
+    const handleLoadedData = () => {
+      setIsLoading(false);
+    };
+
     videoRefs.current.forEach((ref) => {
       if (ref.current) {
         ref.current.addEventListener('ended', handleVideoEnd);
+        ref.current.addEventListener('loadeddata', handleLoadedData);
       }
     });
 
@@ -45,6 +71,7 @@ export default function VideoShowcase() {
       videoRefs.current.forEach((ref) => {
         if (ref.current) {
           ref.current.removeEventListener('ended', handleVideoEnd);
+          ref.current.removeEventListener('loadeddata', handleLoadedData);
         }
       });
     };
@@ -73,7 +100,22 @@ export default function VideoShowcase() {
   };
 
   return (
-    <section className='relative h-screen w-full bg-gray-900 overflow-hidden'>
+    <section
+      ref={containerRef}
+      className='relative w-full overflow-hidden bg-gray-900'
+      style={{ height: isMobile ? '60vh' : '100vh' }}
+    >
+      {/* Loading Overlay */}
+      {isLoading && (
+        <div className='absolute inset-0 flex items-center justify-center bg-black/80 z-20'>
+          <div className='text-center'>
+            <Loader2 className='w-12 h-12 text-teal-500 animate-spin mx-auto mb-4' />
+            <p className='text-white text-sm'>Loading video...</p>
+          </div>
+        </div>
+      )}
+
+      {/* Videos */}
       {videos.map((video, index) => (
         <video
           key={index}
@@ -85,34 +127,64 @@ export default function VideoShowcase() {
           muted={isMuted}
           loop={false}
           playsInline
+          poster='/api/placeholder/1920/1080'
         >
           <source src={video} type='video/mp4' />
           Your browser does not support the video tag.
         </video>
       ))}
-      {/* <div className='absolute inset-0 flex items-center justify-between px-4'>
-        <button
-          onClick={handlePrev}
-          className='bg-black bg-opacity-20 text-white rounded-full p-2 hover:bg-opacity-40 transition-colors focus:outline-none'
-          aria-label='Previous video'
-        >
-          <ChevronLeft size={24} />
-        </button>
-        <button
-          onClick={handleNext}
-          className='bg-black bg-opacity-20 text-white rounded-full p-2 hover:bg-opacity-40 transition-colors focus:outline-none'
-          aria-label='Next video'
-        >
-          <ChevronRight size={24} />
-        </button>
-      </div> */}
-      <button
-        onClick={toggleMute}
-        className='absolute bottom-4 right-4 bg-black bg-opacity-20 text-white rounded-full p-2 hover:bg-opacity-40 transition-colors focus:outline-none'
-        aria-label={isMuted ? 'Unmute' : 'Mute'}
-      >
-        {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
-      </button>
+
+      {/* Video Controls */}
+      <div className='absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent'>
+        <div className='container mx-auto flex justify-between items-center'>
+          {/* Navigation Controls (if multiple videos) */}
+          {videos.length > 1 && (
+            <div className='flex space-x-4'>
+              <button
+                onClick={handlePrev}
+                className='bg-black/30 hover:bg-black/50 text-white rounded-full p-2 backdrop-blur-sm transition-all'
+                aria-label='Previous video'
+              >
+                <ChevronLeft size={isMobile ? 20 : 24} />
+              </button>
+              <button
+                onClick={handleNext}
+                className='bg-black/30 hover:bg-black/50 text-white rounded-full p-2 backdrop-blur-sm transition-all'
+                aria-label='Next video'
+              >
+                <ChevronRight size={isMobile ? 20 : 24} />
+              </button>
+            </div>
+          )}
+
+          {/* Mute Toggle */}
+          <button
+            onClick={toggleMute}
+            className='bg-black/30 hover:bg-black/50 text-white rounded-full p-2 backdrop-blur-sm transition-all'
+            aria-label={isMuted ? 'Unmute' : 'Mute'}
+          >
+            {isMuted ? (
+              <VolumeX size={isMobile ? 20 : 24} />
+            ) : (
+              <Volume2 size={isMobile ? 20 : 24} />
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Touch Areas */}
+      {isMobile && videos.length > 1 && (
+        <>
+          <div
+            className='absolute left-0 top-0 bottom-0 w-1/3'
+            onClick={handlePrev}
+          />
+          <div
+            className='absolute right-0 top-0 bottom-0 w-1/3'
+            onClick={handleNext}
+          />
+        </>
+      )}
     </section>
   );
 }
