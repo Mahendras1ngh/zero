@@ -4,6 +4,9 @@ import Image from 'next/image';
 import kuldeep from '@/assets/team/kuldeep.png';
 import mehak from '@/assets/team/mehak-malik.png';
 import nitin from '@/assets/team/nitin-pal.png';
+import vipin from '@/assets/team/vipin.png';
+import saket from '@/assets/team/saket.jpeg';
+import user from '@/assets/team/user.png';
 
 const AboutUsPage = () => {
   return (
@@ -71,7 +74,7 @@ const AboutUsPage = () => {
             <div className='absolute inset-0 bg-gradient-to-br from-teal-500/20 to-purple-500/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300'></div>
             <div className='relative z-10'>
               <Image
-                src='/vipin-kumar-pal.jpg'
+                src={vipin}
                 alt='Vipin Kumar Pal'
                 width={300}
                 height={300}
@@ -142,7 +145,9 @@ const AboutUsPage = () => {
                 className='rounded-lg shadow-lg mb-4'
               />
               <h3 className='text-xl font-bold mb-2'>Mehak Malik</h3>
-              <p className='text-gray-400 mb-4'>Photographer</p>
+              <p className='text-gray-400 mb-4'>
+                Creative Director for Brand Photography
+              </p>
               <p>
                 Mehak Malik, with her exceptional photography skills, crafts
                 images that are both aesthetically stunning and deeply
@@ -155,16 +160,14 @@ const AboutUsPage = () => {
             <div className='absolute inset-0 bg-gradient-to-br from-teal-500/20 to-purple-500/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300'></div>
             <div className='relative z-10'>
               <Image
-                src='/gautam.jpg'
+                src={user}
                 alt='Gautam'
                 width={300}
                 height={300}
                 className='rounded-lg shadow-lg mb-4'
               />
               <h3 className='text-xl font-bold mb-2'>Gautam</h3>
-              <p className='text-gray-400 mb-4'>
-                Creative Director for Brand Photography
-              </p>
+              <p className='text-gray-400 mb-4'>Photographer</p>
               <p>
                 Gautam, our specialist in architectural photography, brings 8
                 years of experience capturing the essence of design and
@@ -178,7 +181,7 @@ const AboutUsPage = () => {
             <div className='absolute inset-0 bg-gradient-to-br from-teal-500/20 to-purple-500/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300'></div>
             <div className='relative z-10'>
               <Image
-                src='/saket.jpg'
+                src={saket}
                 alt='Saket'
                 width={300}
                 height={300}
@@ -200,7 +203,7 @@ const AboutUsPage = () => {
             <div className='absolute inset-0 bg-gradient-to-br from-teal-500/20 to-purple-500/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300'></div>
             <div className='relative z-10'>
               <Image
-                src='/parveen.jpg'
+                src={user}
                 alt='Parveen'
                 width={300}
                 height={300}
@@ -223,7 +226,7 @@ const AboutUsPage = () => {
             <div className='absolute inset-0 bg-gradient-to-br from-teal-500/20 to-purple-500/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300'></div>
             <div className='relative z-10'>
               <Image
-                src='/parth.jpg'
+                src={user}
                 alt='Parth'
                 width={300}
                 height={300}
@@ -243,7 +246,7 @@ const AboutUsPage = () => {
             <div className='absolute inset-0 bg-gradient-to-br from-teal-500/20 to-purple-500/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300'></div>
             <div className='relative z-10'>
               <Image
-                src='/atharv-singh.jpg'
+                src={user}
                 alt='Atharv Singh'
                 width={300}
                 height={300}

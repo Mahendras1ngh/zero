@@ -105,16 +105,6 @@ export default function VideoShowcase() {
       className='relative w-full overflow-hidden bg-gray-900'
       style={{ height: isMobile ? '60vh' : '100vh' }}
     >
-      {/* Loading Overlay */}
-      {isLoading && (
-        <div className='absolute inset-0 flex items-center justify-center bg-black/80 z-20'>
-          <div className='text-center'>
-            <Loader2 className='w-12 h-12 text-teal-500 animate-spin mx-auto mb-4' />
-            <p className='text-white text-sm'>Loading video...</p>
-          </div>
-        </div>
-      )}
-
       {/* Videos */}
       {videos.map((video, index) => (
         <video

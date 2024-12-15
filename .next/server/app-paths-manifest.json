@@ -1,5 +1,8 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
-  "/photography/page": "app/photography/page.js",
-  "/page": "app/page.js"
+  "/videography/page": "app/videography/page.js",
+  "/page": "app/page.js",
+  "/about-us/page": "app/about-us/page.js",
+  "/digital-marketing/page": "app/digital-marketing/page.js",
+  "/our-services/page": "app/our-services/page.js"
 }

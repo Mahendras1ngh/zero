@@ -26,11 +26,26 @@ export default function Footer() {
           {/* Social Links - Responsive spacing */}
           <div className='flex flex-wrap justify-center gap-4 sm:gap-8'>
             {[
-              { icon: Twitter, href: '#', color: 'hover:text-blue-400' },
-              { icon: Instagram, href: '#', color: 'hover:text-pink-500' },
-              { icon: Facebook, href: '#', color: 'hover:text-blue-600' },
-              { icon: Linkedin, href: '#', color: 'hover:text-blue-500' },
-              { icon: Youtube, href: '#', color: 'hover:text-red-500' },
+              {
+                icon: Instagram,
+                href: 'https://www.instagram.com/zerographyproduction?igsh=MTlrM3p5aDB6MnVwYg==',
+                color: 'hover:text-pink-500',
+              },
+              {
+                icon: Facebook,
+                href: 'https://www.facebook.com/zer0graphy?mibextid=ZbWKwL',
+                color: 'hover:text-blue-600',
+              },
+              {
+                icon: Linkedin,
+                href: 'https://www.linkedin.com/in/zerography-production-221013321?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app',
+                color: 'hover:text-blue-500',
+              },
+              {
+                icon: Youtube,
+                href: 'https://youtube.com/@zerographyfilms?si=tvEQTT7IYJHkoU9j',
+                color: 'hover:text-red-500',
+              },
             ].map((social, index) => (
               <a
                 key={index}
