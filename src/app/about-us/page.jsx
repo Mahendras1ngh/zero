@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import kuldeep from '@/assets/team/kuldeep.png';
 import mehak from '@/assets/team/mehak-malik.png';
@@ -7,8 +7,14 @@ import nitin from '@/assets/team/nitin-pal.png';
 import vipin from '@/assets/team/vipin.png';
 import saket from '@/assets/team/saket.jpeg';
 import user from '@/assets/team/user.png';
+import { Volume2, VolumeX } from 'lucide-react';
 
 const AboutUsPage = () => {
+  const [isMuted, setIsMuted] = useState(true);
+
+  const toggleMute = () => {
+    setIsMuted(!isMuted);
+  };
   return (
     <div className='bg-gray-900 text-white py-20'>
       <div className='container mx-auto px-4'>
@@ -57,14 +63,38 @@ const AboutUsPage = () => {
           </div>
           <div className='flex justify-center items-center'>
             <div className='relative w-full max-w-md'>
-              <div className='absolute inset-0 bg-gradient-to-br from-teal-500 to-purple-500 rounded-lg blur-xl opacity-50 animate-pulse'></div>
-              <Image
-                src='/about-us-image.jpg'
-                alt='About Us'
-                width={500}
-                height={500}
-                className='relative z-10 rounded-lg shadow-lg'
-              />
+              {/* Video container */}
+              <div className='relative z-10 rounded-lg shadow-xl overflow-hidden'>
+                <video
+                  autoPlay
+                  loop
+                  muted={isMuted}
+                  playsInline
+                  className='w-full h-full object-cover rounded-lg transform transition-transform duration-700 hover:scale-105'
+                >
+                  <source
+                    src='https://res.cloudinary.com/dd87wq4wp/video/upload/v1734256204/videos/fvmudwegj0o4f7u2rhdt.mp4'
+                    type='video/mp4'
+                  />
+                  Your browser does not support the video tag.
+                </video>
+
+                {/* Mute/Unmute button */}
+                <button
+                  onClick={toggleMute}
+                  className='absolute bottom-4 right-4 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors backdrop-blur-sm'
+                  aria-label={isMuted ? 'Unmute' : 'Mute'}
+                >
+                  {isMuted ? (
+                    <VolumeX className='w-5 h-5' />
+                  ) : (
+                    <Volume2 className='w-5 h-5' />
+                  )}
+                </button>
+
+                {/* Optional gradient overlay for better text visibility */}
+                <div className='absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent'></div>
+              </div>
             </div>
           </div>
         </div>

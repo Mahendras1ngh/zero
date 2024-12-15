@@ -14,8 +14,74 @@ import {
   Zap,
   ChevronDown,
 } from 'lucide-react';
-import HorizontalHeading from '../components/HorizontalHeading';
 import DigitalMarketingHero from './DigitalMarketingHero';
+import Image from 'next/image';
+
+const portfolioItems = [
+  'https://res.cloudinary.com/dd87wq4wp/image/upload/v1734257199/digital-marketing/yfdz0oqnz6hl6gkszqek.png',
+  'https://res.cloudinary.com/dd87wq4wp/image/upload/v1734257199/digital-marketing/rgwl4yv4zqdbwu5d6k8y.png',
+  'https://res.cloudinary.com/dd87wq4wp/image/upload/v1734257195/digital-marketing/s49dnpcouxhf57qgyslr.png',
+  'https://res.cloudinary.com/dd87wq4wp/image/upload/v1734257191/digital-marketing/gbu4kmicgh8iu30q7dse.png',
+  'https://res.cloudinary.com/dd87wq4wp/image/upload/v1734257190/digital-marketing/m3qhpaeig1ungglumsgx.png',
+  'https://res.cloudinary.com/dd87wq4wp/image/upload/v1734257187/digital-marketing/kkboa7oma9tmba4j6dfw.png',
+  'https://res.cloudinary.com/dd87wq4wp/image/upload/v1734257186/digital-marketing/e473wjvk4xnh9ooypx8o.png',
+  'https://res.cloudinary.com/dd87wq4wp/image/upload/v1734257183/digital-marketing/qwb51kzack1t75s7hz8l.png',
+  'https://res.cloudinary.com/dd87wq4wp/image/upload/v1734257181/digital-marketing/brvltmizpofnta2fgvxo.png',
+  'https://res.cloudinary.com/dd87wq4wp/image/upload/v1734257181/digital-marketing/spskynrnqmg8dfou4n0h.webp',
+  'https://res.cloudinary.com/dd87wq4wp/image/upload/v1734257178/digital-marketing/ck7h0onb40wdoysougqq.webp',
+  'https://res.cloudinary.com/dd87wq4wp/image/upload/v1734257177/digital-marketing/yzine19h757fnndejjrq.png',
+  'https://res.cloudinary.com/dd87wq4wp/image/upload/v1734257176/digital-marketing/mz2jvrtk26gtc0e9juyo.png',
+];
+
+function DigitalMarketingPortfolio() {
+  const [hoveredItem, setHoveredItem] = useState(null);
+
+  return (
+    <section className='pb-20 bg-black relative overflow-hidden'>
+      {/* Subtle background effects */}
+      <div className='absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/5 to-transparent'></div>
+      <div className='absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[length:40px_40px]'></div>
+
+      <div className='container mx-auto px-4 relative z-10'>
+        {/* Section Header */}
+        <div className='max-w-4xl mx-auto text-center mb-16'>
+          <h2 className='text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 text-transparent bg-clip-text'>
+            Our Work
+          </h2>
+        </div>
+
+        {/* Portfolio Grid */}
+        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+          {portfolioItems.map((imageUrl, index) => (
+            <div
+              key={index}
+              className='group relative'
+              onMouseEnter={() => setHoveredItem(index)}
+              onMouseLeave={() => setHoveredItem(null)}
+            >
+              <div className='relative overflow-hidden rounded-xl bg-gray-900 aspect-square'>
+                <Image
+                  src={imageUrl}
+                  alt={`Portfolio item ${index + 1}`}
+                  fill
+                  className='object-contain transition-transform duration-700 group-hover:scale-110'
+                  priority={index < 4}
+                />
+
+                {/* Simple hover overlay with subtle zoom effect */}
+                <div
+                  className={`absolute inset-0 bg-black/50 transition-opacity duration-300 ${
+                    hoveredItem === index ? 'opacity-100' : 'opacity-0'
+                  }`}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default function DigitalMarketingPage() {
   const [expandedCards, setExpandedCards] = useState({});
@@ -288,6 +354,7 @@ export default function DigitalMarketingPage() {
   return (
     <div className='min-h-screen bg-black'>
       <DigitalMarketingHero />
+      <DigitalMarketingPortfolio />
       <div className='container mx-auto px-4 py-20'>
         <div className='max-w-4xl mx-auto mb-16'>
           <p className='text-xl text-gray-300 leading-relaxed'>
