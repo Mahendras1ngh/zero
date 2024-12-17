@@ -161,12 +161,12 @@ export default function VideographyPage() {
                       : 'translate-y-4 opacity-0'
                   }`}
                 >
-                  <h3 className='text-lg sm:text-xl font-bold text-white mb-1 sm:mb-2'>
+                  {/* <h3 className='text-lg sm:text-xl font-bold text-white mb-1 sm:mb-2'>
                     {item.title}
                   </h3>
                   <p className='text-gray-300 text-sm line-clamp-2'>
                     {item.description}
-                  </p>
+                  </p> */}
                 </div>
               </div>
             </div>

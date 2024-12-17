@@ -35,18 +35,18 @@ export const VIDEO_ITEMS = [
     category: 'events',
     description: 'Professional event documentation',
   },
-  {
-    title: 'Business Event',
-    videoId: 'NvVb90pZma8',
-    category: 'events',
-    description: 'Corporate gathering highlights',
-  },
-  {
-    title: 'Backpackers',
-    videoId: 'a5rx0gaw7q0',
-    category: 'shows',
-    description: 'Travel adventure series',
-  },
+  // {
+  //   title: 'Business Event',
+  //   videoId: 'NvVb90pZma8',
+  //   category: 'events',
+  //   description: 'Corporate gathering highlights',
+  // },
+  // {
+  //   title: 'Backpackers',
+  //   videoId: 'a5rx0gaw7q0',
+  //   category: 'shows',
+  //   description: 'Travel adventure series',
+  // },
   {
     title: 'Industry Event',
     videoId: 'LIwleNZaumw',
@@ -71,12 +71,12 @@ export const VIDEO_ITEMS = [
     category: 'shows',
     description: 'Drama series production',
   },
-  {
-    title: 'Brand Story',
-    videoId: '_QY7YDY7jPQ',
-    category: 'brands',
-    description: 'Corporate brand narrative',
-  },
+  // {
+  //   title: 'Brand Story',
+  //   videoId: '_QY7YDY7jPQ',
+  //   category: 'brands',
+  //   description: 'Corporate brand narrative',
+  // },
   {
     title: 'Modern Parivar',
     videoId: 'gJCenfE8qOg',
