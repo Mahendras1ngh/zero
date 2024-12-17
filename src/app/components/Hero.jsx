@@ -3,8 +3,12 @@ import { useEffect, useState } from 'react';
 
 export default function Hero() {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [isTouchDevice, setIsTouchDevice] = useState(true); // Default to true for SSR
 
   useEffect(() => {
+    // Check for touch device after component mounts
+    setIsTouchDevice('ontouchstart' in window);
+
     const hero = document.querySelector('.hero');
     if (!hero || 'ontouchstart' in window) return;
 
@@ -34,8 +38,8 @@ export default function Hero() {
         </p>
       </div>
 
-      {/* Light Effect */}
-      {!('ontouchstart' in window) && (
+      {/* Light Effect - Only render on non-touch devices */}
+      {!isTouchDevice && (
         <div
           className='absolute inset-0 pointer-events-none mix-blend-screen'
           style={{
